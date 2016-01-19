@@ -1,6 +1,6 @@
 {
   "name": "sdmp-language-tests",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Implementation mocks and tests for various languages.",
   "main": "test.js",
   "scripts": {
