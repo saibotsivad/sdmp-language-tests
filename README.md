@@ -57,11 +57,23 @@ Have a look at the the [test.js](./test.js) file.
 Each language needs to implement a set of functions which call
 the command line to do whatever is needed to run the tests.
 
+## testing with travis
+
 The tests are run on [Travis CI](https://travis-ci.org), so if
 you add a test you'll probable want to make sure to update the
 [.travis.yml](./.travis.yml) file to use whatever settings are
-needed for your langauge. Try [here](https://docs.travis-ci.com/user/languages/)
-for more information.
+needed for your langauge.
+
+Read [here](https://docs.travis-ci.com/user/languages/) for
+more information.
+
+If you have to fiddle with the `.travis.yml` file, you might
+want to be able to check it locally before committing. You can
+read about it [here](https://docs.travis-ci.com/user/travis-lint/),
+but basically you run this:
+
+	gem install travis --no-rdoc --no-ri
+	travis lint .travis.yml
 
 ## security review
 
