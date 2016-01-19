@@ -12,7 +12,9 @@ The goal is to have these languages represented:
 * JS
 * PHP
 * Java
-* C++
+* Ruby
+* Go
+* C
 * C#
 * Swift
 
@@ -54,6 +56,12 @@ Have a look at the the [test.js](./test.js) file.
 
 Each language needs to implement a set of functions which call
 the command line to do whatever is needed to run the tests.
+
+The tests are run on [Travis CI](https://travis-ci.org), so if
+you add a test you'll probable want to make sure to update the
+[.travis.yml](./.travis.yml) file to use whatever settings are
+needed for your langauge. Try [here](https://docs.travis-ci.com/user/languages/)
+for more information.
 
 ## security review
 
