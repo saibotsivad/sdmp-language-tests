@@ -7,61 +7,62 @@ var languages = [
 }, {})
 
 var testFunctions = {
-	makePublicKey: {
+	makePrivateKey: {
 		generate: function(callable, callback) {
+			// generate a PEM encoded private key
 			callable(callback)
 		},
-		verify: function(callable, data, callback) {
-			callable(data, callback)
+		verify: function(callable, key, callback) {
+			// see if the private key is valid
+			callable(key, callback)
 		}
 	}
-	// , makePrivateKey: {
-	// 	generate: function(callable, callback) {
-	// 		callable(callback)
-	// 	},
-	// 	verify: function(callable, data, callback) {
-	// 		callable(data, callback)
-	// 	}
-	// }
-	// , signData: {
-	// 	generate: function(callable, callback) {
-	// 		var privateKey = 'get this from a file'
-	// 		var data = 'get this from a file'
-	// 		callable(privateKey, data, callback)
-	// 	},
-	// 	verify: function(callable, data, callback) {}
-	// }
-	// , verifySignedData: {
-	// 	generate: function(callable, callback) {
-	// 		var publicKey = 'get this from a file'
-	// 		var signedData = 'get this from a file'
-	// 		callable(publicKey, signedData, callback)
-	// 	},
-	// 	verify: function(callable, data, callback) {}
-	// }
-	// , encryptData: {
-	// 	generate: function(callable, callback) {
-	// 		var publicKey = 'get this from a file'
-	// 		var data = 'get this from a file'
-	// 		callable(publicKey, data, callback)
-	// 	},
-	// 	verify: function(callable, data, callback) {}
-	// }
-	// , decryptData: {
-	// 	generate: function(callable, callback) {
-	// 		var privateKey = 'get this from a file'
-	// 		var data = 'get this from a file'
-	// 		callable(privateKey, data, callback)
-	// 	},
-	// 	verify: function(callable, data, callback) {}
-	// }
+	, makePublicKey: {
+		generate: function(callable, callback) {
+			// generate a PEM encoded public key using a PEM encoded private key
+			var privateKey = 'get from file'
+			callable(privateKey, callback)
+		},
+		verify: function(callable, key, callback) {
+			// see if the private key is valid
+			callable(key, callback)
+		}
+	}
+	, signData: {
+		generate: function(callable, callback) {
+			// sign some data using a PEM encoded private key
+			var privateKey = 'get this from a file'
+			var data = 'get this from a file'
+			callable(privateKey, data, callback)
+		},
+		verify: function(callable, signature, callback) {
+			// verify signature with PEM encoded public key
+			var publicKey = 'from a file'
+			var originalData = 'the data from the generate function'
+			callable(publicKey, originalData, signature, callback)
+		}
+	}
+	, encryptData: {
+		generate: function(callable, callback) {
+			// encrypt data with PEM encoded public key
+			var publicKey = 'get this from a file'
+			var data = 'get this from a file'
+			callable(publicKey, data, callback)
+		},
+		verify: function(callable, encrypted, callback) {
+			// decrypt data with PEM encoded private key
+			var privateKey = 'get from file'
+			var originalData = 'data from generate function'
+			callable(privateKey, originalData, encrypted, callback)
+		}
+	}
 }
 
 var languageCount = Object.keys(languages).length
 var testFunctionCount = Object.keys(testFunctions).length * 2 // generate and verify for each
-var numberOfTestCallbacksExpected = languageCount * testFunctionCount
+var numberOfPassingTestCallbacksExpected = languageCount * testFunctionCount
 
-var numberOfTestCallbacks = 0
+var numberOfPassingTestCallbacks = 0
 
 // For each language, generate the data
 Object.keys(languages).forEach(function(language) {
@@ -83,20 +84,20 @@ function validateGeneratedData(testKey) {
 			var testVerifier = testFunctions[testKey].verify
 			var languageVerifier = languages[language][testKey].verify
 			testVerifier(languageVerifier, generatedData, function(responseIsPassing) {
-				numberOfTestCallbacks++
-				if (!responseIsPassing) {
+				if (responseIsPassing) {
+					numberOfPassingTestCallbacks++
+				} else {
 					console.log('Generated data could not be verified in language:', language)
-					throw 'test failure'
 				}
 			})
 		})
 	}
 }
 
-if (numberOfTestCallbacks !== numberOfTestCallbacksExpected) {
-	console.log('Some tests did not complete!')
-	console.log('Expected test count:', numberOfTestCallbacksExpected)
-	console.log('Actual test count:', numberOfTestCallbacks)
+if (numberOfPassingTestCallbacks !== numberOfPassingTestCallbacksExpected) {
+	console.log('Some tests did not pass!')
+	console.log('Expected passing test count:', numberOfPassingTestCallbacksExpected)
+	console.log('Actual passing test count:', numberOfPassingTestCallbacks)
 	throw 'test failure'
 }
 
