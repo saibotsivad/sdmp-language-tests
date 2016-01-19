@@ -4,7 +4,7 @@ module.exports = {
 			callback('generated key')
 		},
 		verify: function(key, callback) {
-			callback(true)
+			callback(false)
 		}
 	},
 	signData: {
