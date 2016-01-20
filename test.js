@@ -1,93 +1,43 @@
-var languages = [
-	'js',
-	'php'
-].reduce(function(map, language) {
-	map[language] = require('./language/' + language + '/test.js')
+var testFunctions = require('./callables.js')
+
+var implementations = [
+	'openssl',
+	'js-nodejs'
+].reduce(function(map, implementation) {
+	map[implementation] = require('./implementations/' + implementation + '/test.js')
 	return map
 }, {})
 
-var testFunctions = {
-	makePrivateKey: {
-		generate: function(callable, callback) {
-			// generate a PEM encoded private key
-			callable(callback)
-		},
-		verify: function(callable, key, callback) {
-			// see if the private key is valid
-			callable(key, callback)
-		}
-	}
-	, makePublicKey: {
-		generate: function(callable, callback) {
-			// generate a PEM encoded public key using a PEM encoded private key
-			var privateKey = 'get from file'
-			callable(privateKey, callback)
-		},
-		verify: function(callable, key, callback) {
-			// see if the private key is valid
-			callable(key, callback)
-		}
-	}
-	, signData: {
-		generate: function(callable, callback) {
-			// sign some data using a PEM encoded private key
-			var privateKey = 'get this from a file'
-			var data = 'get this from a file'
-			callable(privateKey, data, callback)
-		},
-		verify: function(callable, signature, callback) {
-			// verify signature with PEM encoded public key
-			var publicKey = 'from a file'
-			var originalData = 'the data from the generate function'
-			callable(publicKey, originalData, signature, callback)
-		}
-	}
-	, encryptData: {
-		generate: function(callable, callback) {
-			// encrypt data with PEM encoded public key
-			var publicKey = 'get this from a file'
-			var data = 'get this from a file'
-			callable(publicKey, data, callback)
-		},
-		verify: function(callable, encrypted, callback) {
-			// decrypt data with PEM encoded private key
-			var privateKey = 'get from file'
-			var originalData = 'data from generate function'
-			callable(privateKey, originalData, encrypted, callback)
-		}
-	}
-}
-
-var languageCount = Object.keys(languages).length
+var implementationCount = Object.keys(implementations).length
 var testFunctionCount = Object.keys(testFunctions).length * 2 // generate and verify for each
-var numberOfPassingTestCallbacksExpected = languageCount * testFunctionCount
+var numberOfPassingTestCallbacksExpected = implementationCount * testFunctionCount
 
 var numberOfPassingTestCallbacks = 0
 
-// For each language, generate the data
-Object.keys(languages).forEach(function(language) {
-	console.log('Beginning tests for:', language)
+// For each implementation, generate the data
+Object.keys(implementations).forEach(function(implementation) {
+	console.log('Beginning tests for:', implementation)
 	Object.keys(testFunctions).forEach(function(testKey) {
 		console.log('  Test:', testKey)
 		var testGenerator = testFunctions[testKey].generate
-		var languageGenerator = languages[language][testKey].generate
+		var implementationGenerator = implementations[implementation][testKey].generate
 		// for the generated data, validate it
-		testGenerator(languageGenerator, validateGeneratedData(testKey))
+		testGenerator(implementationGenerator, validateGeneratedData(testKey))
 	})
 })
 
-// validate the generated data across all other languages
+// validate the generated data across all other implementations
 function validateGeneratedData(testKey) {
 	return function(generatedData) {
-		Object.keys(languages).forEach(function(language) {
-			console.log('    Verifying generated data against language:', language)
+		Object.keys(implementations).forEach(function(implementation) {
+			console.log('    Verifying generated data against implementation:', implementation)
 			var testVerifier = testFunctions[testKey].verify
-			var languageVerifier = languages[language][testKey].verify
-			testVerifier(languageVerifier, generatedData, function(responseIsPassing) {
+			var implementationVerifier = implementations[implementation][testKey].verify
+			testVerifier(implementationVerifier, generatedData, function(responseIsPassing) {
 				if (responseIsPassing) {
 					numberOfPassingTestCallbacks++
 				} else {
-					console.log('Generated data could not be verified in language:', language)
+					console.log('Generated data could not be verified in implementation:', implementation)
 				}
 			})
 		})

@@ -1,6 +1,3 @@
-/*
-Each language needs to implement the following functions:
-*/
 module.exports = {
 	makePrivateKey: {
 		generate: function(callback) {

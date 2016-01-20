@@ -75,6 +75,25 @@ but basically you run this:
 	gem install travis --no-rdoc --no-ri
 	travis lint .travis.yml
 
+## requirements to run
+
+Each implementation should list requirements needed to get the
+implementation test to run.
+
+### `openssl`
+
+Implementation using [OpenSSL](https://openssl.org/) on the
+command line.
+
+Obviously, you need to have OpenSSL available on the `PATH`.
+Ideally, `npm` should install it, but it might not, and in
+Windows it might not run correctly?
+
+### `js-nodejs`
+
+Implementation using the [Node.js](https://nodejs.org/) core
+[crypto API](https://nodejs.org/api/crypto.html).
+
 ## security review
 
 If you understand cryptography pretty well, you should look at
