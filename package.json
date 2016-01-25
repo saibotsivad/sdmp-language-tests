@@ -18,5 +18,7 @@
   "bugs": {
     "url": "https://github.com/sdmp/sdmp-language-tests/issues"
   },
-  "homepage": "https://github.com/sdmp/sdmp-language-tests#readme"
+  "homepage": "https://github.com/sdmp/sdmp-language-tests#readme",
+  "dependencies": {
+  }
 }

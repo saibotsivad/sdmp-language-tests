@@ -1,8 +1,9 @@
 var testFunctions = require('./callables.js')
 
 var implementations = [
-	'openssl',
-	'js-nodejs'
+	'cached-files'
+	, 'openssl'
+	// , 'js-nodejs'
 ].reduce(function(map, implementation) {
 	map[implementation] = require('./implementations/' + implementation + '/test.js')
 	return map

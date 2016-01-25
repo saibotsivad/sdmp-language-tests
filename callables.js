@@ -1,18 +1,23 @@
+// node.js core filesystem api
+var fs = require('fs')
+
 module.exports = {
 	makePrivateKey: {
+		// the callable should generate a PEM encoded private key
 		generate: function(callable, callback) {
-			// generate a PEM encoded private key
 			callable(callback)
 		},
+		// the callable should see if the private key is valid
 		verify: function(callable, key, callback) {
-			// see if the private key is valid
 			callable(key, callback)
 		}
 	}
 	, makePublicKey: {
+		// the callable should generate a PEM encoded public key
+		// using a PEM encoded private key
 		generate: function(callable, callback) {
-			// generate a PEM encoded public key using a PEM encoded private key
-			var privateKey = 'get from file'
+			// use a pre-generated private key from the file system
+			var privateKey = fs.readFileSync('./pre-generated-files/private_key.pem', 'utf8')
 			callable(privateKey, callback)
 		},
 		verify: function(callable, key, callback) {

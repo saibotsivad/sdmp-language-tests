@@ -1,15 +1,29 @@
 /*
-Each language needs to implement the following functions:
+
+This is a simple "implementation" which really only supplies
+pre-generated data, that way you can check some of your
+verification implementations without needing to waste lots
+of bits of entropy on your computer.
+
+- Generating things grabs them from the filesystem.
+- Verifying things blindly passes.
+
 */
+
+// this is the node.js filesystem core api
+var fs = require('fs')
+
 module.exports = {
 	makePrivateKey: {
 		// generate a PEM encoded private key without password
 		// protection and give to callback as string
 		generate: function(callback) {
-			callback('the private key')
+			// grab the private key from the filesystem, use async method
+			callback(fs.readFileSync('./pre-generated-files/private_key.pem', { encoding: 'utf8' }))
 		},
 		// verify the given string is a PEM encoded private key
 		verify: function(privateKey, callback) {
+			// this will blindly pass, see the header to this file
 			var thePrivateKeyIsValid = true
 			callback(thePrivateKeyIsValid)
 		}
@@ -18,10 +32,14 @@ module.exports = {
 		// given a PEM encoded private key, generate a PEM encoded
 		// public key and give to the callback as a string
 		generate: function(privateKey, callback) {
-			callback('the public key')
+			// this will ignore whatever private key was given, and
+			// simply grab the public key from the filesystem, using
+			// the async method
+			callback(fs.readFileSync('./pre-generated-files/public_key.pem', { encoding: 'utf8' }))
 		},
 		// verify the given string is a PEM encoded public key
 		verify: function(publicKey, callback) {
+			// this will blindly pass, see the header to this file
 			var thePublicKeyIsValid = true
 			callback(thePublicKeyIsValid)
 		}

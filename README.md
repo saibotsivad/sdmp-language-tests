@@ -83,7 +83,9 @@ implementation test to run.
 ### `openssl`
 
 Implementation using [OpenSSL](https://openssl.org/) on the
-command line.
+command line. Tested using version `1.0.2e`. Had to do a custom
+install locally in order to get [pkey](https://openssl.org/docs/manmaster/apps/pkey.html)
+to work.
 
 Obviously, you need to have OpenSSL available on the `PATH`.
 Ideally, `npm` should install it, but it might not, and in

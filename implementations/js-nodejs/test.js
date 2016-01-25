@@ -4,7 +4,8 @@ Each language needs to implement the following functions:
 module.exports = {
 	makePrivateKey: {
 		generate: function(callback) {
-			// generate a PEM encoded private key and give to callback as string
+			// generate a PEM encoded private key without password
+			// protection and give to callback as string
 			callback('the private key')
 		},
 		verify: function(privateKey, callback) {
