@@ -1,5 +1,7 @@
 # sdmp-language-tests
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/saibotsivad/sdmp-language-tests.svg)](https://greenkeeper.io/)
+
 **TODO: Everything. This is not even beta yet.**
 
 Implementation mocks and tests for various languages.
